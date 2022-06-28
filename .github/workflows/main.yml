@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: QA_CICD_LIQUIBASE
+name: MAIN_CICD_LIQUIBASE
 
 # Controls when the workflow will run
 on:
@@ -17,7 +17,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  QA_CICD:
+  MAIN_CICD:
      runs-on: ubuntu-latest     
     # Steps represent a sequence of tasks that will be executed as part of the job
      steps:
