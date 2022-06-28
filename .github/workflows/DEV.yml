@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: DEV_CICD_LIQUIBASE
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "DEV" ]
+    paths:
+    - 'PROPERTIES_BUSINESS/PROCESSED/**'
+ #  pull_request:
+ #   branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  DEV_CICD:
+     runs-on: ubuntu-latest     
+    # Steps represent a sequence of tasks that will be executed as part of the job
+     steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+     - uses: actions/checkout@v2
+      #  note the below assumes that a hist path or volume is mounted into the docker container at //Docker else action will fail
+     - name: Run 'Liquibase status' in a Docker Container
+       uses: docker://liquibase/liquibase:latest
+       with:
+          args: --url=${{ secrets.SF_DEV_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} status
+      
+
+#  deploy code to target database 
+     - name: Run 'Liquibase update' in a Docker Container
+       uses: docker://liquibase/liquibase:latest
+       with:
+          args: --url=${{ secrets.SF_DEV_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} --logLevel=debug update
+       # run: echo update has been completed!
