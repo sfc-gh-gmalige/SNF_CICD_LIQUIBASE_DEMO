@@ -9,11 +9,12 @@ on:
     branches:
       - main
       - Dev
+    paths:
+      - 'PROPERTIES_BUSINESS/PROCESSED/**'
       
   workflow_dispatch:
       
-  paths:
-    - 'PROPERTIES_BUSINESS/PROCESSED/**'
+
  #  pull_request:
  #   branches: [ "main" ]
 
