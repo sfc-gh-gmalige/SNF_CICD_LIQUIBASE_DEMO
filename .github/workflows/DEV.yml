@@ -6,7 +6,7 @@ name: DEV_CICD_LIQUIBASE
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "DEV" ]
+    branches: [ "Dev" ]
     paths:
     - 'PROPERTIES_BUSINESS/PROCESSED/**'
  #  pull_request:
