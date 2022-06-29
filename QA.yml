@@ -1,32 +1,23 @@
 # This is a basic workflow to help you get started with Actions
 
-name: DEV_CICD_LIQUIBASE
+name: QA_CICD_LIQUIBASE
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-<<<<<<< HEAD
-    branches: [ "DEV" ]
+    branches: [ "QA" ]
     paths:
     - 'PROPERTIES_BUSINESS/PROCESSED/**'
  #  pull_request:
  #   branches: [ "main" ]
-=======
-    branches:
-      - Dev
-    paths:
-      - 'PROPERTIES_BUSINESS/PROCESSED/**'
-      
-  workflow_dispatch:
->>>>>>> cb288653bbc4d4d7a77103789d0c9c22c9230d6a
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  DEV_CICD:
+  QA_CICD:
      runs-on: ubuntu-latest     
     # Steps represent a sequence of tasks that will be executed as part of the job
      steps:
@@ -36,12 +27,12 @@ jobs:
      - name: Run 'Liquibase status' in a Docker Container
        uses: docker://liquibase/liquibase:latest
        with:
-          args: --url=${{ secrets.SF_DEV_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} status
+          args: --url=${{ secrets.SF_QA_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} status
       
 
 #  deploy code to target database 
      - name: Run 'Liquibase update' in a Docker Container
        uses: docker://liquibase/liquibase:latest
        with:
-          args: --url=${{ secrets.SF_DEV_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} --logLevel=debug update
+          args: --url=${{ secrets.SF_QA_ACCOUNT }} --changeLogFile=/PROPERTIES_BUSINESS/PROCESSED/schema_changelog.xml --username=${{ secrets.SF_USERNAME }} --password=${{ secrets.SF_PASSWORD }} --driver=${{ secrets.SF_DRIVER }} --defaultSchemaName=${{ secrets.SF_SCHMEA }} --logLevel=debug update
        # run: echo update has been completed!
